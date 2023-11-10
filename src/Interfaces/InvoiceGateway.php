@@ -2,6 +2,8 @@
 
 namespace Composite\InvoiceWrapper\Interfaces;
 
+use Exception;
+
 interface InvoiceGateway
 {
     public function issueInvoice(array $invoicePayload): array;
