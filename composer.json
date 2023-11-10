@@ -1,0 +1,17 @@
+{
+    "name": "composite/invoice-wrapper",
+    "description": "Easy solution for Szamlazz.hu and Billingo invoicing integration",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Composite\\InvoiceWrapper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Támba Bence",
+            "email": "btamba@composite.hu"
+        }
+    ],
+    "require": {}
+}
