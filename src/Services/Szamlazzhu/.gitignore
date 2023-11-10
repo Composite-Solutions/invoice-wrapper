@@ -1,0 +1,5 @@
+/szamlaagent/pdf/*.pdf
+/szamlaagent/logs/*.log
+/szamlaagent/xmls/*.xml
+/szamlaagent/*.txt
+

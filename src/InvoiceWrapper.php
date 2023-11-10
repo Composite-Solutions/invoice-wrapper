@@ -16,4 +16,9 @@ class InvoiceWrapper
     {
         return $this->invoiceGateway->issueInvoice($invoice);
     }
+
+    public function getInvoice(string $invoiceId): array
+    {
+        return $this->invoiceGateway->getInvoice($invoiceId);
+    }
 }
