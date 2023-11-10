@@ -123,7 +123,7 @@ class Szamlazzhu implements InvoiceGateway
                         'city' => $invoiceResponse['vevo']['cim']['telepules'],
                         'address' => $invoiceResponse['vevo']['cim']['cim'],
                     ],
-                    'taxcode' => count($invoiceResponse['vevo']['adoszam']) ? $invoiceResponse['vevo']['adoszam'] : '',
+                    'taxcode' => $invoiceResponse['vevo']['adoszam'],
                     'email' => $invoiceResponse['vevo']['email'],
                 ],
                 'invoice' => [
