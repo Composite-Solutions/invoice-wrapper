@@ -35,7 +35,7 @@ class InvoiceWrapperServiceProvider extends ServiceProvider
             $config = $app['config']['invoice-wrapper'];
 
             return new InvoiceWrapper(
-                InvoiceGatewayFactory::create($config['selected_provider'])
+                InvoiceGatewayFactory::create($config)
             );
         });
 

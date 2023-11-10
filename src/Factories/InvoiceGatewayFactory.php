@@ -7,11 +7,11 @@ use Composite\InvoiceWrapper\Services\Szamlazzhu\Szamlazzhu;
 
 class InvoiceGatewayFactory
 {
-    public static function create(string $provider)
+    public static function create(array $config)
     {
-        return match ($provider) {
-            'billingo' => new Billingo(),
-            'szamlazzhu' => new Szamlazzhu(),
+        return match ($config['selected_provider']) {
+            'billingo' => new Billingo($config['providers']['billingo']),
+            'szamlazzhu' => new Szamlazzhu($config['providers']['szamlazzhu']),
             default => throw new \Exception('Invalid invoicing provider')
         };
     }
