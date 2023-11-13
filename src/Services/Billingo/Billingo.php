@@ -73,12 +73,22 @@ class Billingo implements InvoiceGateway
         return $this->formatInvoiceResponse($response);
     }
 
+
     /**
      * @param string $invoiceId
      * @return void
+     * @throws GuzzleException
      */
     public function downloadInvoice(string $invoiceId): void
     {
-        // ...
+        $response = $this->client->downloadDocument((int)$invoiceId);
+        $invoiceNumber = $this->getInvoice($invoiceId)['invoice']['invoice_number'];
+
+        header('Content-type: application/pdf');
+        header("Content-Disposition: attachment; filename={$invoiceNumber}.pdf");
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        echo $response;
     }
 }
