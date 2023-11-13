@@ -17,7 +17,7 @@ trait SzamazzhuHelper
     {
         $items = array_map(function ($item) {
             return $this->formatItem($item);
-        }, $invoiceResponse['tetelek']['tetel']);
+        }, $invoiceResponse['tetelek']);
 
         return [
             'partner' => $this->formatPartner($invoiceResponse['vevo']),
