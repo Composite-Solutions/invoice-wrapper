@@ -19,6 +19,7 @@ use SzamlaAgent\SzamlaAgentException;
 class Szamlazzhu implements InvoiceGateway
 {
     use SzamazzhuHelper;
+
     private SzamlaAgent $client;
 
     /**
@@ -107,7 +108,7 @@ class Szamlazzhu implements InvoiceGateway
         $response = $this->client->generateInvoice($invoice);
         if ($response->isSuccess()) {
             return $this->getInvoice($response->getData()['documentNumber']);
-        } else{
+        } else {
             throw new Exception($response->isFailed());
         }
     }
@@ -130,9 +131,19 @@ class Szamlazzhu implements InvoiceGateway
         return $this->formatInvoiceResponse($response->getData()['result']);
     }
 
-    public function downloadInvoice(int $invoiceId): array
+    /**
+     * @param string $invoiceId
+     * @return void
+     * @throws SzamlaAgentException
+     * @throws Exception
+     */
+    public function downloadInvoice(string $invoiceId): void
     {
-        return ["Szamlazz.hu"];
-    }
+        $response = $this->client->getInvoicePdf($invoiceId);
 
+        if (!$response->isSuccess()) {
+            throw new Exception('Invoice download failed.');
+        }
+        $response->downloadPdf();
+    }
 }

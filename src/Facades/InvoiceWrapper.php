@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static issueInvoice(array[] $array)
  * @method static getInvoice($withoutTax)
+ * @method static downloadInvoice(string $withoutTax)
  */
 class InvoiceWrapper extends Facade
 {

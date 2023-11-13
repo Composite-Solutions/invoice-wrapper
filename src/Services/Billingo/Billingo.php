@@ -16,8 +16,8 @@ class Billingo implements InvoiceGateway
         return ["Billingo"];
     }
 
-    public function downloadInvoice(string $invoiceId): array
+    public function downloadInvoice(string $invoiceId): void
     {
-        return ["Billingo"];
+        // ...
     }
 }
