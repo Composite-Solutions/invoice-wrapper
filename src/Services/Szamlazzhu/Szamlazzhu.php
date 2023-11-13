@@ -103,7 +103,6 @@ class Szamlazzhu implements InvoiceGateway
             // Add the item to the invoice
             $invoice->addItem($invoiceItem);
         }
-        dd($invoice);
 
         $response = $this->client->generateInvoice($invoice);
         if ($response->isSuccess()) {
