@@ -146,6 +146,13 @@ $invoiceId = 'invoice-id-here';
 $invoice = InvoiceWrapper::getInvoice($invoiceId);
 ```
 
+To download an invoice:
+
+```php
+$invoiceId = 'invoice-id-here';
+$invoice = InvoiceWrapper::downloadInvoice($invoiceId);
+```
+
 Make sure to handle any exceptions that may be thrown due to API errors or configuration issues.
 
 ## 📝✨To-Do List for Future Enhancements
@@ -153,8 +160,8 @@ Here's a whimsical checklist of tasks for the Invoice Wrapper's journey ahead:
 
 - [x] 🧙‍️ Creating the Invoice Wrapper - Done!
 - [x] 🧞‍ Implementing Szamlazz.hu Service - Done!
-- [ ] 🧞‍ Implementing Billingo Service - "The Genie is out of the bottle!"
-- [ ] 📩 Downloading Invoice - Awaiting the magic spell!
+- [x] 🧞‍ Implementing Billingo Service - "The Genie is out of the bottle!"
+- [x] 📩 Downloading Invoice - Awaiting the magic spell!
 - [ ] 🔗 Getting Download Links - Soon to be summoned from the digital ether!
 
 ## 🤝 Support
