@@ -67,15 +67,26 @@ class Szamlazzhu implements InvoiceGateway
         $invoice->setBuyer($buyer);
 
         foreach ($invoicePayload['invoice']['items'] as $item) {
+            // Calculate VAT based on the item's VAT rate
             $vat = $this->getVat($item['vat']);
-            $netUnitPrice = $item['unit_price_type'] == 'net' ?
-                $item['unit_price'] :
-                $item['unit_price'] / (1 + $vat / 100);
+
+            // Determine net unit price depending on if the unit price type is 'net' or not
+            $netUnitPrice = $item['unit_price_type'] == 'net'
+                ? $item['unit_price']
+                : $item['unit_price'] / (1 + $vat / 100);
+
+            // Calculate the net price for the total item quantity
             $netPrice = $netUnitPrice * $item['quantity'];
-            $vatAmount = $item['unit_price_type'] == 'net' ?
-                $netPrice * $vat / 100 :
-                $item['unit_price'] - $netUnitPrice;
+
+            // Calculate the VAT amount depending on the unit price type
+            $vatAmount = $item['unit_price_type'] == 'net'
+                ? $netPrice * $vat / 100
+                : $item['unit_price'] - $netUnitPrice;
+
+            // Calculate the gross amount for the item
             $grossAmount = $netPrice + $vatAmount;
+
+            // Create a new invoice item with the calculated values
             $invoiceItem = new InvoiceItem(
                 name: $item['name'],
                 netUnitPrice: $netUnitPrice,
@@ -83,11 +94,16 @@ class Szamlazzhu implements InvoiceGateway
                 quantityUnit: $item['unit'],
                 vat: $vat
             );
+
+            // Set the net price, VAT amount, and gross amount for the invoice item
             $invoiceItem->setNetPrice($netPrice);
             $invoiceItem->setVatAmount($vatAmount);
             $invoiceItem->setGrossAmount($grossAmount);
+
+            // Add the item to the invoice
             $invoice->addItem($invoiceItem);
         }
+        dd($invoice);
 
         $response = $this->client->generateInvoice($invoice);
         if ($response->isSuccess()) {

@@ -135,3 +135,9 @@ This package is proudly brought to you by:
 A huge shout-out to all contributors and supporters! Your feedback and contributions make this project better every day. 🚀🙌
 
 Thank you for being part of this journey! 🎉👏
+
+## 📜 Changelog
+All notable changes to this project will be documented in the [CHANGELOG.md](CHANGELOG.md) file.
+
+## 📜 License
+This package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

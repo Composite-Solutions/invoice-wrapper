@@ -13,5 +13,8 @@
             "email": "btamba@composite.hu"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^9.0"
+    }
 }
