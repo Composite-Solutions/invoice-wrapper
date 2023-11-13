@@ -43,7 +43,7 @@ trait SzamazzhuHelper
     private function formatPartner(array $partner): array
     {
         return [
-            'id' => $partner['id'],
+            'id' => (int)$partner['id'],
             'name' => $partner['nev'],
             'address' => $this->formatAddress($partner['cim']),
             'taxcode' => $partner['adoszam'],
