@@ -22,6 +22,8 @@ trait SzamazzhuHelper
         return [
             'partner' => $this->formatPartner($invoiceResponse['vevo']),
             'invoice' => [
+                'invoice_id' => $invoiceResponse['alap']['szamlaszam'],
+                'invoice_number' => $invoiceResponse['alap']['szamlaszam'],
                 'fulfillment_date' => $invoiceResponse['alap']['telj'],
                 'due_date' => $invoiceResponse['alap']['fizh'],
                 'payment_method' => $this->getPaymentMethodType($invoiceResponse['alap']['fizmod']),

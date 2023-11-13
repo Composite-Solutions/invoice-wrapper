@@ -32,10 +32,10 @@ class InvoiceWrapper
 
     /**
      * @param string $invoiceId
-     * @return mixed
+     * @return void
      */
-    public function downloadInvoice(string $invoiceId)
+    public function downloadInvoice(string $invoiceId): void
     {
-        return $this->invoiceGateway->downloadInvoice($invoiceId);
+        $this->invoiceGateway->downloadInvoice($invoiceId);
     }
 }
