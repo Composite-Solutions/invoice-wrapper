@@ -47,6 +47,40 @@ $invoicePayload = [
 $invoice = InvoiceWrapper::issueInvoice($invoicePayload);
 ```
 
+or without Facade, as a service (it can be useful, when you want to use multiple providers):
+
+```php
+use Composite\InvoiceWrapper\InvoiceWrapper;
+use Carbon\Carbon;
+
+$config = [
+    'selected_provider' => env('INVOICING_PROVIDER'),
+    'providers' => [
+        'billingo' => [
+            'name' => 'Billingo',
+            'base_url' => env('BILLINGO_BASE_URL', 'https://api.billingo.hu/v3/'),
+            'api_key' => env('BILLINGO_API_KEY'),
+            'block_id' => env('BILLINGO_BLOCK_ID', 0),
+        ],
+        'szamlazzhu' => [
+            'name' => 'Szamlazz.hu',
+            'api_key' => env('SZAMLAZZHU_API_KEY'),
+        ]
+    ],
+];
+
+$invoicePayload = [
+    // Your invoice payload here
+];
+
+// Issue the invoice using the selected provider
+$invoiceWrapper = new InvoiceWrapper(
+ \Composite\InvoiceWrapper\Factories\InvoiceGatewayFactory::create($config)
+);
+
+$invoiceWrapper->issueInvoice($invoicePayload);
+```
+
 Sample invoice payload:
 
 ```php
