@@ -162,7 +162,7 @@ trait SzamazzhuHelper
     private function getVat($vatRate): string
     {
         return match ($vatRate) {
-            '5', '18', '27', '0' => $vatRate,
+            '5', '18', '27', '0', 'AAM' => $vatRate,
             default => '27',
         };
     }

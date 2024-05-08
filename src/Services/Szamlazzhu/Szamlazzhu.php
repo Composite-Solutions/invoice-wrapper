@@ -70,18 +70,19 @@ class Szamlazzhu implements InvoiceGateway
         foreach ($invoicePayload['invoice']['items'] as $item) {
             // Calculate VAT based on the item's VAT rate
             $vat = $this->getVat($item['vat']);
+            $vatValue = $vat === 'AAM' ? 0 : $vat;
 
             // Determine net unit price depending on if the unit price type is 'net' or not
             $netUnitPrice = $item['unit_price_type'] == 'net'
                 ? $item['unit_price']
-                : $item['unit_price'] / (1 + $vat / 100);
+                : $item['unit_price'] / (1 + $vatValue / 100);
 
             // Calculate the net price for the total item quantity
             $netPrice = $netUnitPrice * $item['quantity'];
 
             // Calculate the VAT amount depending on the unit price type
             $vatAmount = $item['unit_price_type'] == 'net'
-                ? $netPrice * $vat / 100
+                ? $netPrice * $vatValue / 100
                 : $item['unit_price'] - $netUnitPrice;
 
             // Calculate the gross amount for the item
