@@ -21,6 +21,11 @@ class InvoiceWrapper
         return $this->invoiceGateway->issueInvoice($invoice);
     }
 
+    public function issueWayBill(array $waybill): array
+    {
+        return $this->invoiceGateway->issueWayBill($waybill);
+    }
+
     /**
      * @param string $invoiceId
      * @return array

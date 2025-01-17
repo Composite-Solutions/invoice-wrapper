@@ -26,6 +26,7 @@ INVOICING_PROVIDER=billingo
 BILLINGO_BASE_URL=https://api.billingo.hu/v3/
 BILLINGO_API_KEY=your-billingo-api-key
 BILLINGO_BLOCK_ID=your-billingo-block-id
+BILLINGO_WAYBILL_BLOCK_ID=your-billingo-waybill-block-id
 
 # Szamlazz.hu Configuration
 SZAMLAZZHU_API_KEY=your-szamlazzhu-api-key
@@ -61,6 +62,7 @@ $config = [
             'base_url' => env('BILLINGO_BASE_URL', 'https://api.billingo.hu/v3/'),
             'api_key' => env('BILLINGO_API_KEY'),
             'block_id' => env('BILLINGO_BLOCK_ID', 0),
+            'waybill_block_id' => env('BILLINGO_WAYBILL_BLOCK_ID', 0),
         ],
         'szamlazzhu' => [
             'name' => 'Szamlazz.hu',

@@ -7,6 +7,7 @@ use Exception;
 interface InvoiceGateway
 {
     public function issueInvoice(array $invoicePayload): array;
+    public function issueWayBill(array $waybillPayload): array;
     public function getInvoice(string $invoiceId): array;
     public function downloadInvoice(string $invoiceId): void;
 }
