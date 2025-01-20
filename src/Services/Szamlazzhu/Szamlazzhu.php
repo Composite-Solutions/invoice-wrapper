@@ -147,4 +147,14 @@ class Szamlazzhu implements InvoiceGateway
         }
         $response->downloadPdf();
     }
+
+    public function issueWayBill(array $waybillPayload): array
+    {
+        //@TODO Implement waybill issuing
+        return [
+            'partner' => [],
+            'invoice' => [],
+            'message'=> 'Not available yet'
+        ];
+    }
 }
