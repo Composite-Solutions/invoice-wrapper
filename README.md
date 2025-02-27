@@ -66,7 +66,8 @@ $config = [
         ],
         'szamlazzhu' => [
             'name' => 'Szamlazz.hu',
-            'api_key' => env('SZAMLAZZHU_API_KEY'),
+            'api_key' => env('SZAMLAZZHU_API_KEY'),            
+            'proforma_prefix'=>env('SZAMLAZZHU_PROFORMA_PREFIX','ORDER'),
         ]
     ],
 ];

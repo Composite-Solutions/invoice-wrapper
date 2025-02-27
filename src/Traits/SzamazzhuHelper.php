@@ -202,7 +202,7 @@ trait SzamazzhuHelper
     {
         $proforma = new Proforma();
         $this->client->setDownloadPdf(data_get($waybillPayload, 'download_pdf', false));
-        $order_number = 'ORDER-' . data_get($waybillPayload, 'order_number');
+        $order_number = data_get($waybillPayload, 'proforma_prefix').'-' . data_get($waybillPayload, 'order_number');
         $proforma->getHeader()->setOrderNumber($order_number);
         return $proforma;
     }
