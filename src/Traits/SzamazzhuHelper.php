@@ -2,8 +2,11 @@
 
 namespace Composite\InvoiceWrapper\Traits;
 
+use SzamlaAgent\Buyer;
 use SzamlaAgent\Currency;
 use SzamlaAgent\Document\Document;
+use SzamlaAgent\Document\Proforma;
+use SzamlaAgent\Item\ProformaItem;
 use SzamlaAgent\Language;
 use SzamlaAgent\TaxPayer;
 
@@ -189,5 +192,69 @@ trait SzamazzhuHelper
             'HU' => 'Magyarország', // TODO: get from config, add more countries
             default => $countryCode,
         };
+    }
+
+    /**
+     * @param array $waybillPayload
+     * @return Proforma
+     */
+    private function getProformaBase(array $waybillPayload): Proforma
+    {
+        $proforma = new Proforma();
+        $this->client->setDownloadPdf(data_get($waybillPayload, 'download_pdf', false));
+        $order_number = 'ORDER-' . data_get($waybillPayload, 'order_number');
+        $proforma->getHeader()->setOrderNumber($order_number);
+        return $proforma;
+    }
+
+    /**
+     * @param Proforma $proforma
+     * @param array $waybillPayload
+     * @return void
+     */
+    private function getProformaBuyer(Proforma $proforma, array $waybillPayload): void
+    {
+        // Vevő adatainak hozzáadása (kötelezően kitöltendő adatokkal)
+        $proforma->setBuyer(new Buyer(
+            data_get($waybillPayload, 'partner.name'),
+            data_get($waybillPayload, 'partner.address.post_code'),
+            data_get($waybillPayload, 'partner.address.city'),
+            data_get($waybillPayload, 'partner.address.address')
+        ));
+    }
+
+    /**
+     * @param array $waybillPayload
+     * @param Proforma $proforma
+     * @return void
+     */
+    private function getProformaItems(array $waybillPayload, Proforma $proforma): void
+    {
+        $items = data_get($waybillPayload, 'invoice.items');
+        foreach ($items as $item) {
+            // A bizonylat (díjbekérő) tétel összeállítása alapértelmezett adatokkal (név, nettó egységár, mennyiség, egység, ÁFA)
+            $pro_item = new ProformaItem(
+                data_get($item, 'name'),
+                data_get($item, 'unit_price'),
+                data_get($item, 'quantity'),
+                data_get($item, 'unit'),
+                data_get($item, 'vat')
+            );
+
+            // Tétel nettó értékének beállítása
+            $pro_item->setNetPrice(data_get($item, 'unit_price') * data_get($item, 'quantity'));
+
+            // ÁFA értékének kiszámítása
+            $vatRate = (float)data_get($item, 'vat'); // ÁFA százalék, pl. 27
+            $netPrice = (float)data_get($item, 'unit_price') * data_get($item, 'quantity');
+
+            $vatAmount = $netPrice * ($vatRate / 100);
+            $grossAmount = $netPrice + $vatAmount;
+
+            // Beállítjuk az ÁFA és a bruttó értéket
+            $pro_item->setVatAmount($vatAmount);
+            $pro_item->setGrossAmount($grossAmount);
+            $proforma->addItem($pro_item);
+        }
     }
 }

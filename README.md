@@ -184,3 +184,14 @@ All notable changes to this project will be documented in the [CHANGELOG.md](CHA
 
 ## 📜 License
 This package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## config/logging.php
+```
+        'szamlazzhu' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/szamlazzhu.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+```
