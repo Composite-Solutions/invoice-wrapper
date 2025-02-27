@@ -218,12 +218,23 @@ trait SzamazzhuHelper
     private function getProformaBuyer(Proforma $proforma, array $waybillPayload): void
     {
         // Vevő adatainak hozzáadása (kötelezően kitöltendő adatokkal)
-        $proforma->setBuyer(new Buyer(
+        $buyer = new Buyer(
             data_get($waybillPayload, 'partner.name'),
             data_get($waybillPayload, 'partner.address.post_code'),
             data_get($waybillPayload, 'partner.address.city'),
             data_get($waybillPayload, 'partner.address.address')
-        ));
+        );
+        if(data_get($waybillPayload,'partner.is_company',false)){
+            $buyer->setTaxNumber(data_get($waybillPayload,'partner.vat_number'));
+            // Vevő adóalanyisága (van magyar adószáma)
+            $buyer->setTaxPayer(TaxPayer::TAXPAYER_HAS_TAXNUMBER);
+        }else{
+            $buyer->setTaxPayer(TaxPayer::TAXPAYER_NO_TAXNUMBER);
+        }
+
+        $buyer->setEmail(data_get($waybillPayload, 'partner.email'));
+        $buyer->setSendEmail(data_get($waybillPayload, 'partner.send_email'));
+        $proforma->setBuyer($buyer);
     }
 
     /**
