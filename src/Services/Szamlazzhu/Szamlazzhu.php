@@ -7,6 +7,7 @@ require_once __DIR__ . '/sdk_autoloader.php';
 use Composite\InvoiceWrapper\Interfaces\InvoiceGateway;
 use Composite\InvoiceWrapper\Traits\SzamazzhuHelper;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use SzamlaAgent\Buyer;
 use SzamlaAgent\Document\Invoice\Invoice;
 use SzamlaAgent\Item\InvoiceItem;
@@ -150,11 +151,27 @@ class Szamlazzhu implements InvoiceGateway
 
     public function issueWayBill(array $waybillPayload): array
     {
-        //@TODO Implement waybill issuing
-        return [
-            'partner' => [],
-            'invoice' => [],
-            'message'=> 'Not available yet'
-        ];
+
+        try {
+            $proforma = $this->getProformaBase($waybillPayload);
+            $this->getProformaBuyer($proforma, $waybillPayload);
+
+            $this->getProformaItems($waybillPayload, $proforma);
+
+            // Díjbekérő elkészítése
+            $result = $this->client->generateProforma($proforma);
+            // Agent válasz sikerességének ellenőrzése
+            if ($result->isSuccess()) {
+                Log::channel('szamlazzhu')->info('Proforma created', $result->getData());
+                return $result->getData();
+            }
+            Log::channel('szamlazzhu')->info('Proforma not success', $result->getData());
+            return [];
+        } catch (\Exception $e) {
+            Log::channel('szamlazzhu')->info('Proforma not success', [$e->getMessage()]);
+            return [];
+        }
     }
+
+
 }
